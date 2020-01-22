@@ -1,5 +1,5 @@
-int p=0, a0, a1, check = 2;
- 
+int p=0, a0, a1;
+String check0 = "open", check1 = "open";
 void setup()
 {
   pinMode(A0, INPUT);
@@ -14,35 +14,42 @@ void loop()
 {
   a0=digitalRead(A0);
   a1=digitalRead(A1);
-  if((p>7)||(p<0))             //reset p = 0
+  if(p>7)             //reset go left
   {
     p = 0;
   }
+  else if(p<0)      
+  {
+    p = 7;
+  }
   ledOn(p);
 
-  if((a0 == 1)&&(check ==3))
+  if((a0 == 1)&&(check0 == "open"))
   {
-    check = 2;
+    check0 = "close";
   }
-  else if((a0 == 0)&&(check == 2))
+  else if((a0 == 0)&&(check0 == "close"))
   {
     p++;
-    check = 3;
+    check0 = "open";
   }
-//  if((a1 == 1)&&(check ==3))
-//   {
-//     check = 2;
-//   }
-  else if((a1 == 0)&&(check == 2))
+  else if((a1 == 1)&&(check1 =="open"))
+  {
+    check1 = "close";
+  }
+  else if((a1 == 0)&&(check1 == "close"))
   {
     p--;
-    check = 3;
+    check1 = "open";
   }
 
   
  Serial.print(a0);
+ Serial.println(a1);
  Serial.println(p);
- Serial.println(p);
+  Serial.println(check0);
+    Serial.println(check1);
+
 
 }
 
