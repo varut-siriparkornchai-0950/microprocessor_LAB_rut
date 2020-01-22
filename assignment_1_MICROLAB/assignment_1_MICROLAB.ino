@@ -1,7 +1,7 @@
 void setup() {
-DDRD=0xFF;
-DDRB=0xFF;
-Serial.begin(9600);
+  DDRD=0xFF;
+  DDRB=0xFF;
+  Serial.begin(9600);
 }
 
 void loop() {
