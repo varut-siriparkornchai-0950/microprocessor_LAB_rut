@@ -2,7 +2,7 @@ int p=0, a0, a1;
 String check0 = "open", check1 = "open";
 void setup()
 {
-  pinMode(A0, INPUT);
+  pinMode(A0, INPUT)
   pinMode(A1, INPUT);
   DDRD=0b11111100;         
   DDRB=0b00000011;  
