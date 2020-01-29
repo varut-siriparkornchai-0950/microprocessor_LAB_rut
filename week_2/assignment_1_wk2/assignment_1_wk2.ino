@@ -1,10 +1,9 @@
 int clk_pin = 13;
 int latch_pin = 10;
 int data_pin = 11;
-bool toggle=0;
-byte led;
+int led;
 
-void updateDATA(uint8_t updata);
+void updateDATA(uint16_t updata);
 
 void setup() {
  pinMode(clk_pin,OUTPUT);
@@ -12,9 +11,9 @@ void setup() {
  pinMode(data_pin,OUTPUT);
 }
 void loop() {
-  led = 0b00000001;
+  led = 0b0000000000000001;
   delay(500);
-  for(int i=0;i<=7;++i)
+  for(int i=0;i<=15;++i)
   {
     updateDATA(led);
     led = led << 1 ;
@@ -22,10 +21,17 @@ void loop() {
   }
 }
 
-void updateDATA(uint8_t updata){
+/*int8_t
+uint8_t
+int16_t
+
+0b1000 0000 >> 7 = 0b0000 0001
+0b1110 0000 >> 4 = 0b0000 1110 -> & 0b0000 0001*/
+
+void updateDATA(uint16_t updata){
  digitalWrite(latch_pin,LOW);
- for(int i = 0 ; i < 8 ; i++){
-  digitalWrite(data_pin,(updata>>(7-i)) & 0x01);      // & 0x01 for checking last bit, is that True?
+ for(int i = 0 ; i < 16 ; i++){
+  digitalWrite(data_pin,(updata>>(15-i)) & 0b0000000000000001);      // & 0x01 for checking last bit, is that True?
   digitalWrite(clk_pin,HIGH);
   digitalWrite(clk_pin,LOW);
  }
