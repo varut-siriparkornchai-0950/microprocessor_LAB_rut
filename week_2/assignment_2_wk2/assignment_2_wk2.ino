@@ -1,63 +1,47 @@
+
 int clk_pin = 13;
 int latch_pin = 10;
 int data_pin = 11;
-int led, a0, a1;
+int led, LP, RP;
+int leftP=4, rightP=5;
+int posi = 0; 
 
 void updateDATA(uint16_t updata);
-void LEDup(int position_LED);
+int posy(int pos, int direction);
 
 void setup() {
  pinMode(clk_pin,OUTPUT);
  pinMode(latch_pin,OUTPUT);
  pinMode(data_pin,OUTPUT);
- pinMode(A0,INPUT);
- pinMode(A1,INPUT);
+ pinMode(leftP,INPUT);
+ pinMode(rightP,INPUT);
+ Serial.begin(9600);
 }
 
-void loop() {
+void loop() 
+{ 
+  LP = digitalRead(leftP);
+  RP = digitalRead(rightP);
   
-  a0 = digitalRead(A0);
-  a1 = digitalRead(A1);
-  
-  if(a0 == 0 && a1 == 1)
+  if(LP == 0)
   {
-    for(int i = 0; i<=15; i++)
-    {
-      a1 = digitalRead(A1);
-     if(a1 == 1)
-     {
-       led = LEDup(i);
-       updateDATA(led);
-     }
-     else
-     {
-       break;
-     }
-    }
+    posi = posy(posi,4);
   }
- /* led = 0b0000000000000001;
-  delay(500);
-  for(int i=0;i<=15;i++)
+  else if(RP == 0)
   {
-    updateDATA(led);
-    led = led << 1 ;
-    delay(500);
-  }*/
- // updateDATA(0x9FF9);
-    
-}
+    posi = posy(posi,6);
+  }
+
+}      //  end void loop()
 
 
-/*int8_t
-uint8_t
-int16_t
+//____________________________________________FUNCTION BELOW___________________________
 
-0b1000 0000 >> 7 = 0b0000 0001
-0b1110 0000 >> 4 = 0b0000 1110 -> & 0b0000 0001*/
-
-void updateDATA(uint16_t updata){
+void updateDATA(uint16_t updata)
+{
  digitalWrite(latch_pin,LOW);
- for(int i = 0 ; i < 16 ; i++){
+ for(int i = 0 ; i < 16 ; i++)
+ {
   digitalWrite(data_pin,(updata>>(15-i)) & 0b0000000000000001);      // & 0x01 for checking last bit, is that True?
   digitalWrite(clk_pin,HIGH);
   digitalWrite(clk_pin,LOW);
@@ -65,13 +49,51 @@ void updateDATA(uint16_t updata){
  digitalWrite(latch_pin,HIGH);
  delay(100);
 }
-    
-void LEDup(int position_LED)                //function shift position
+
+int posy(int pos,int direction)
 {
-  int LED=0b0000000000000001;
-  if(position_LED>=0 && position_LED<=5)
+  if(direction == 4)
   {
-    PORTD = LED << position_LED;
-    delay(500);
-  }
+    for(pos; pos<=15; pos++)
+    {
+      RP = digitalRead(rightP);
+      led = 0x1 << pos;
+      updateDATA(led);
+      delay(200);
+      
+      if(pos == 15)
+      {
+        pos = -1;
+      }
+      
+      if(RP == 0)
+      {
+        break;
+      }
+    }
+  } 
+  else if(direction == 6)
+    {
+      for(pos; pos<=16; --pos)
+      {
+        if(pos == -1)
+        {
+          pos = 15;
+        }
+        else if(pos == -2)
+        {
+          pos = 14;
+        }
+        LP = digitalRead(leftP);
+        led = 0x1 << pos;
+        updateDATA(led);
+        delay(200);
+        if(LP == 0)
+        {
+          break;
+        }
+        
+      }
+    }
+  return pos;
 }
