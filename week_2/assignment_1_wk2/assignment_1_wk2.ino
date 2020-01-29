@@ -21,13 +21,6 @@ void loop() {
   }
 }
 
-/*int8_t
-uint8_t
-int16_t
-
-0b1000 0000 >> 7 = 0b0000 0001
-0b1110 0000 >> 4 = 0b0000 1110 -> & 0b0000 0001*/
-
 void updateDATA(uint16_t updata){
  digitalWrite(latch_pin,LOW);
  for(int i = 0 ; i < 16 ; i++){
