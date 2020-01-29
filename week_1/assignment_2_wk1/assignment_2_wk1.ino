@@ -45,13 +45,11 @@ void loop()
     check1 = "open";
   }
 
-  
- Serial.print(a0);
- Serial.println(a1);
- Serial.println(p);
- Serial.println(check0);
- Serial.println(check1);
-
+// Serial.print(a0);
+// Serial.println(a1);
+// Serial.println(p);
+// Serial.println(check0);
+// Serial.println(check1);
 
 }
 
