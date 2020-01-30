@@ -3,7 +3,11 @@ int latch_pin = 10;
 int data_pin = 11;
 int led, LP, RP,permis;
 int leftP=4, rightP=5;
-int posi = 0, poten; 
+int posi = 0, poten, p;
+String check0 = "open", check1 = "open"; 
+
+void updateDATA(uint16_t updata);
+void LEDup(int position_LED);
 
 void setup()
 {
@@ -19,13 +23,13 @@ void loop()
 {
   LP=digitalRead(leftP);
   RP=digitalRead(rightP);
-  if(p>7)                                   //go throught left
+  if(p>15)                                   //go throught left
   {
     p = 0;
   }
   else if(p<0)                              //go through right
   {
-    p = 7;
+    p = 15;
   }
   LEDup(p);                                 //turn-on LED
 
@@ -50,12 +54,20 @@ void loop()
     check1 = "open";
   }
 
-// Serial.print(a0);
-// Serial.println(a1);
-// Serial.println(p);
-// Serial.println(check0);
-// Serial.println(check1);
 
+}
+
+void updateDATA(uint16_t updata)
+{
+ digitalWrite(latch_pin,LOW);
+ for(int i = 0 ; i < 16 ; i++)
+ {
+  digitalWrite(data_pin,(updata>>(15-i)) & 0b0000000000000001);      // & 0x01 for checking last bit, is that True?
+  digitalWrite(clk_pin,HIGH);
+  digitalWrite(clk_pin,LOW);
+ }
+ digitalWrite(latch_pin,HIGH);
+ delay(100);
 }
 
 void LEDup(int position_LED)                //function shift position
