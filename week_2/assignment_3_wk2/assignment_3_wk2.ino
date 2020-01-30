@@ -3,7 +3,7 @@ int latch_pin = 10;
 int data_pin = 11;
 int led, LP, RP,permis;
 int leftP=4, rightP=5;
-int posi = 0; 
+int posi = 0, poten; 
 
 void updateDATA(uint16_t updata);
 int posy(int pos, int direction);
@@ -14,6 +14,7 @@ void setup() {
  pinMode(data_pin,OUTPUT);
  pinMode(leftP,INPUT);
  pinMode(rightP,INPUT);
+ pinMode(A0,INPUT);
  Serial.begin(9600);
 }
 
@@ -55,14 +56,16 @@ int posy(int pos,int direction, int &permis)
     for(pos; pos<=15; pos++)
     {
       RP = digitalRead(rightP);
+      poten = analogRead(A0);
       led = 0x1 << pos;
       updateDATA(led);
-      delay(200);
+      delay(poten);
       
       if(pos == 15)
       {
         pos = -1;
       }
+      
       if(RP == 0)
       {
         permis = 6;
@@ -84,10 +87,11 @@ int posy(int pos,int direction, int &permis)
         {
           pos = 14;
         }
+        poten = analogRead(A0);
         LP = digitalRead(leftP);
         led = 0x1 << pos;
         updateDATA(led);
-        delay(200);
+        delay(poten);
         if(LP == 0)
         {
           permis = 4;
