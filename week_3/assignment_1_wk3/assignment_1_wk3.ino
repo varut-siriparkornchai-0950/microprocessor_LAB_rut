@@ -22,15 +22,12 @@ void setup() {
   setLed(0x3F);
 }
 void loop() {
-  if(Serial.available()>0)
+  if(num == 10)
   {
-    num = Serial.read();          //input 0 = 48 (ascii)
-    playnum(num - 48);
-    Serial.println(num);
+    num = 0;
   }
-  
-  
-  
+  playnum(num);
+  num++;
 }
 
 void playnum(int pos)
