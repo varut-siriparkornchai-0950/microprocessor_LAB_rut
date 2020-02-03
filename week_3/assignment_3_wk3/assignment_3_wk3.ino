@@ -1,6 +1,6 @@
-int clk_pin = 13; //SHCP
-int latch_pin = 10; //STCP
-int data_pin = 11; //DS
+int clk_pin = 10; //SHCP
+int latch_pin = 9; //STCP
+int data_pin = 8; //DS
 byte number[] = {0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F};
 int pos = 0, leftp = 7, rightp = 6, left, right;
 String check0 = "open", check1 = "open"; 
