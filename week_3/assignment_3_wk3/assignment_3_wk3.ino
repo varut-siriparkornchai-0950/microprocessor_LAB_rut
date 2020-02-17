@@ -2,7 +2,7 @@ int clk_pin = 10; //SHCP
 int latch_pin = 9; //STCP
 int data_pin = 8; //DS
 byte number[] = {0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F};
-int pos = 0, leftp = 7, rightp = 6, left, right;
+int posi = 0, leftp = 7, rightp = 6, left, right;
 String check0 = "open", check1 = "open"; 
 
 void setLed(uint8_t _state)
@@ -29,8 +29,6 @@ void setup() {
 void loop() {
   left = digitalRead(leftp);
   right = digitalRead(rightp);
-  
-  playnum(pos);                                 //turn-on LED
 
 //     _________Door of filter clicker_________
 
@@ -40,7 +38,7 @@ void loop() {
   }
   else if((left == 0)&&(check0 == "close"))   // DOOR close & finger down
   {
-    pos++;
+    posi++;
     check0 = "open";
   }
   else if((right == 1)&&(check1 =="open"))      //A1 button   DOOR open & finger up 
@@ -49,18 +47,21 @@ void loop() {
   }
   else if((right == 0)&&(check1 == "close"))   // DOOR close & finger down
   {
-    pos--;
+    posi--;
     check1 = "open";
   }
+
+  playnum(posi);                                 //turn-on LED
+  
 }
 
 void playnum(int pos)
 {
-  if(pos == -1)
+  if(pos <= -1)
   {
     pos = 9;
   }
-  else if(pos == 10)
+  else if(pos >= 10)
   {
     pos = 0;
   }
