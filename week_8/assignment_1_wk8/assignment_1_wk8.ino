@@ -13,31 +13,23 @@ void loop() {
     char inByte = Serial.read();
     if(inByte == 'L')
     {
-       buff = " ";
-       Serial.println("L");
+       c = 0;
     }
     if((inByte =='1')&&(c == 1))
     {
-      buff = " ";
       LED_PIN = LED_PIN1;
-      Serial.println("1 pos");
     }
     if(inByte =='2'&&(c == 1))
     {
-      buff = " ";
       LED_PIN = LED_PIN2;
-      Serial.println("2 pos");
     }
     if(inByte =='B')
     {
       buff = " ";
-      Serial.println("B");
     }
     if(('0'<= inByte) && (inByte <= '9'))
     {
       buff += inByte;
-      Serial.println("count");
-      Serial.println(buff);
     }
     if(inByte == 'n')
     {
