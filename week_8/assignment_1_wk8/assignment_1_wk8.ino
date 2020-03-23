@@ -1,4 +1,3 @@
-
 #define LED_PIN1 11
 #define LED_PIN2 10
 int LED_PIN,c=0;
