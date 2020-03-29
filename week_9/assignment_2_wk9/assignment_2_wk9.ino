@@ -28,7 +28,6 @@ ISR(TIMER1_OVF_vect)
 
 void setup()
 {
-  Serial.begin(9600);
   pinMode(LED1, OUTPUT);
   pinMode(INT_PIN, INPUT);
   
@@ -47,7 +46,7 @@ void setup()
 void loop()
 {
   sw = digitalRead(INT_PIN);
-  if((sw == 1)&&(check0 == "open"))         //A0 button   DOOR open & finger up
+  if((sw == 1)&&(check0 == "open"))         //sw button   DOOR open & finger up
   {
     check0 = "close";
   }
@@ -60,6 +59,5 @@ void loop()
     mode++;
     check0 = "open";
   }
-  Serial.println(mode);
   digitalWrite(LED1, toggle);
 }
