@@ -19,7 +19,7 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(INT_PIN), 
                             ISR_Callback, RISING);    // RISING(0v -> 5v) or FALLING(5v -> 0v) or CHANGE(0v -> 5v or 5v -> 0v)
 }
-
+ // attachInterrupt(digitalPinToInterrupt(*your INT PIN(e.g. 2 or 3*),*function's name*, RISING);
 void loop()
 {
   digitalWrite(LED1, HIGH);
