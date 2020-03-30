@@ -15,11 +15,13 @@ ISR(TIMER1_OVF_vect)
   {
     TCNT1 = timer1_counter;
     toggle = !toggle;
+    countRound=1;
   }
   else if((mode == 3)&& (countRound == 3))
   {
     TCNT1 = timer1_counter;
     toggle = !toggle;
+    countRound=1;
   }
   else{
     countRound++;
