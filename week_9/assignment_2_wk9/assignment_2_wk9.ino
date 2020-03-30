@@ -35,7 +35,7 @@ void setup()
   TCCR1A = 0;       //reset timer
   TCCR1B = 0;       //reset timer
 
-  timer1_counter = 1;
+  timer1_counter = 3036;
   TCNT1 = timer1_counter;
   TCCR1B |= (1 << CS12);
   TIMSK1 |= (1 << TOIE1);
