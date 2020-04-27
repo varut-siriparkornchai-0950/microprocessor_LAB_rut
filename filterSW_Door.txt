@@ -1,0 +1,20 @@
+//     _________Door of filter clicker_________
+
+  if((LP == 1)&&(check0 == "open"))         //A0 button   DOOR open & finger up
+  {
+    check0 = "close";
+  }
+  else if((LP == 0)&&(check0 == "close"))   // DOOR close & finger down
+  {
+    p++;
+    check0 = "open";
+  }
+  else if((RP == 1)&&(check1 =="open"))      //A1 button   DOOR open & finger up 
+  {
+    check1 = "close";
+  }
+  else if((RP == 0)&&(check1 == "close"))   // DOOR close & finger down
+  {
+    p--;
+    check1 = "open";
+  }
