@@ -9,6 +9,7 @@
 #define MOTOR_D2_PIN 8
 #define MOTOR_PWM_PIN 6
 
+#define potentio A0
 volatile int count = 0, detector=6,thousand,hundred;
 int map7seg[10] = {
  0x3F,0x06, 0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F
@@ -78,6 +79,8 @@ void setup()
   
   pinMode(2, INPUT_PULLUP);
 
+  pinMode(potentio, INPUT);
+
   attachInterrupt(digitalPinToInterrupt(2),CW, RISING);
   attachInterrupt(digitalPinToInterrupt(3),CCW, RISING);
   
@@ -95,6 +98,7 @@ void setup()
 
 void loop()
 { 
+  setPosy = analogRead(potentio);
   error = setPosy - count;
   int sped = P*float(error);
   if(sped>=0){
@@ -105,21 +109,25 @@ void loop()
   }
   speedMotor(sped);
   
-  ////// LED PART /////////////////////
+  //....... LED PART ..................
   if(count>=0){
     digitalWrite(statusEncoder, LOW);
   }
   else{
     digitalWrite(statusEncoder, HIGH);
   }
+  //...... plot graph .................
   Serial.print(error);
   Serial.print(",");
   Serial.print(count);
   Serial.print(",");
   Serial.println(setPosy);
+  Serial.println(detector);
+  //...................................
+  
   thousand = abs(count)/1000;
   hundred = (abs(count)/100)%10;
   LED1(map7seg[thousand]);
   LED2(map7seg[hundred]);
-  /////////////////////////////////////
+  //...................................
 }
