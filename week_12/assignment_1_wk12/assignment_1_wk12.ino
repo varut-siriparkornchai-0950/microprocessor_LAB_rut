@@ -9,8 +9,8 @@ volatile int count = 0, detector= 6, countPAST= 0;
 
 ISR(TIMER1_OVF_vect)
 {
-  
   TCNT1 = timer1_counter;
+  rpm = (countPAST-count)/
   countPAST = count;
   timer++;
 }
@@ -92,7 +92,6 @@ void loop()
     else{
       detector = 4;
     }
-    velo = 
     speedMotor(sped);
   } 
 }
