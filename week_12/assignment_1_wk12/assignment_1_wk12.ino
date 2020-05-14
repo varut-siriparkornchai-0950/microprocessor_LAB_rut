@@ -5,14 +5,31 @@
 #define MOTOR_D2_PIN 8
 #define MOTOR_PWM_PIN 6
 
-volatile int count = 0, detector= 6, countPAST= 0;
+volatile int count = 0, detector= 6,setRPM = 100, deltaTIME, deltaCOUNT, sumERROR, rateERROR, Kp, Ki, Kd ;
+volatile int controlSPEED=100;
+volatile float previousTIME=0, previousRPM=0,previousERROR=0,previousCOUNT=0;
+volatile float currentTIME, currentRPM, currentERROR;
+int timer1_counter;
 
 ISR(TIMER1_OVF_vect)
 {
   TCNT1 = timer1_counter;
-  rpm = (countPAST-count)/
-  countPAST = count;
-  timer++;
+  currentTIME = millis();
+  deltaTIME = (currentTIME - previousTIME)/1000;
+
+  deltaCOUNT = abs(count) - previousCOUNT;
+  currentRPM = int((deltaCOUNT*60)/(229*deltaTIME));
+  currentERROR = setRPM - currentRPM;
+  
+  sumERROR += currentERROR*deltaTIME;
+
+  rateERROR = (currentERROR - previousERROR)/deltaTIME;
+
+  controlSPEED = (Kp*currentERROR)+(Ki*sumERROR)+(Kd*rateERROR);
+  
+  previousCOUNT = count;
+  previousERROR = currentERROR;
+  previousTIME = currentTIME;
 }
 
 void speedMotor(int sped)
@@ -83,15 +100,12 @@ void setup()
 
 void loop()
 { 
-  if(Serial.available()){
-    String speedo = Serial.readString();
-    int sped = speedo.toInt();
-    if(sped>=0){
-      detector = 6;
-    }
-    else{
-      detector = 4;
-    }
-    speedMotor(sped);
-  } 
+  if(controlSPEED>=0){
+    detector = 6;
+  }
+  else{
+    detector = 4;
+  }
+  speedMotor(int(controlSPEED));
+  Serial.println(count);
 }
